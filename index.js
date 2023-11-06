@@ -1,9 +1,10 @@
 /**
  * @format
  */
-
 import {AppRegistry} from 'react-native';
-import Assignment2 from './Assignment2';
 import {name as appName} from './app.json';
 
-AppRegistry.registerComponent(appName, () => Assignment2);
+import loginPage from './src/screens/Home/registration';
+
+
+AppRegistry.registerComponent(appName, () => loginPage);

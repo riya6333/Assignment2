@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from 'react-native'
 import React from 'react'
-export default function Assignment2() {
+function Assignment2() {
   return (
         <View style = {styles.container}>
 
@@ -137,3 +137,4 @@ const styles = StyleSheet.create({
   
 
 })
+export default Assignment2;
