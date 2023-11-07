@@ -1,26 +1,15 @@
-import * as React from 'react';
-
-import {View, Text, StyleSheet} from 'react-native';
+import 'react-native-gesture-handler';
+import {View, Text} from 'react-native';
+import React from 'react';
+import RegistrationScreen from './src/screens/Home/RegistrationScreen';
+import {HomeScreen} from './src/screens/Home/HomeScreen';
 import {NavigationContainer} from '@react-navigation/native';
+// export default function Assignment3() {
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import RegistrationScreen from './registration';
-
-export function HomeScreen({route}) {
-  const {name, checked, email, password, gender, technology} = route.params;
-  return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>Candidate Name:{name}</Text>
-      <Text>Email:{email}</Text>
-      <Text>Password:{password}</Text>
-      <Text>Gender:{gender}</Text>
-      <Text>Technology Choosen:{technology}</Text>
-    </View>
-  );
-}
 
 const Stack = createNativeStackNavigator();
 
-function loginPage() {
+export default function Assignment3() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -35,10 +24,10 @@ function loginPage() {
         />
 
         <Stack.Screen
-          name="Home"
+          name="HomeScreen"
           component={HomeScreen}
           options={{
-            title: 'Registration Details',
+            title: 'Home',
             headerStyle: {backgroundColor: 'teal'},
             headerTintColor: '#fff',
           }}
@@ -48,4 +37,7 @@ function loginPage() {
   );
 }
 
-export default loginPage;
+// export default loginPage;
+// </View>
+//   )
+// }

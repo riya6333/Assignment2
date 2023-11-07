@@ -3,18 +3,16 @@ import {useState} from 'react';
 import {
   View,
   Text,
-  Button,
   TextInput,
   StyleSheet,
-  TouchableOpacity,
   Pressable,
+  ImageBackground,
 } from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+
 import {Dropdown} from 'react-native-element-dropdown';
-import {Checkbox, RadioButton} from 'react-native-paper';
+import {RadioButton} from 'react-native-paper';
+import CheckBox from '@react-native-community/checkbox';
 import {black} from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
-import {HomeScreen} from './home';
 
 const technology = [
   {label: 'React Native', value: '1'},
@@ -49,89 +47,93 @@ function RegistrationScreen({navigation}) {
     navigation.navigate('HomeScreen', {
       name,
       checked,
-      education,
+      qualification,
       technology,
       email,
       password,
     });
   };
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+    <View
+      style={{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 10,
+        backgroundColor: '#F9F6EE',
+      }}>
       <View
         style={{
           flex: 1,
-          backgroundColor: 'pink',
+
           width: '100%',
           rowGap: 10,
           paddingTop: 20,
         }}>
-        <Text>Candidate Name:</Text>
+        <Text style={{fontSize: 18}}>Candidate Name:</Text>
         <View style={styles.setStyle}>
           <TextInput
             style={{textAlign: 'center'}}
             placeholder="Enter your name"
+            onChangeText={setName}
+            value={name}
           />
         </View>
         <View style={styles.setStyle}>
           <TextInput
             style={{textAlign: 'center'}}
             placeholder="Enter your mail"
+            onChangeText={setEmail}
+            value={email}
           />
         </View>
         <View style={styles.setStyle}>
-          <TextInput style={{textAlign: 'center'}} placeholder="Password" />
+          <TextInput
+            style={{textAlign: 'center'}}
+            placeholder="Password"
+            onChangeText={setPassword}
+            value={password}
+          />
         </View>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
           <Text style={styles.text}>Gender</Text>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <RadioButton
-              value="one"
-              status={checked === 'one' ? 'checked' : 'unchecked'}
+              value="male"
+              status={checked === 'male' ? 'checked' : 'unchecked'}
               onPress={() => setChecked('first')}
             />
             <Text style={styles.text}>Male</Text>
-          </View>
 
-          <View style={{flexDirection: 'row'}}>
             <RadioButton
-              value="two"
-              status={checked === 'two' ? 'checked' : 'unchecked'}
-              onPress={() => setChecked('two')}
+              value="female"
+              status={checked === 'female' ? 'checked' : 'unchecked'}
+              onPress={() => setChecked('female')}
             />
             <Text style={styles.text}>Female</Text>
           </View>
         </View>
-        <View>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <Text style={styles.text}>Qualification</Text>
           <Dropdown
             style={styles.Dropdown}
             data={qualifications}
-            search
-            maxHeight={300}
             labelField="label"
             valueField="value"
-            placeholder="Qualification"
+            placeholder="Select"
             onChange={item => {
               setQualification(item.value);
             }}
           />
         </View>
-        {/* 
-
-        
-
-     
-       
-
-       
-
         <Text style={styles.text}>Technology</Text>
         {technologyList.map((lang, index) => (
           <View key={index} style={styles.CheckboxContainer}>
-            <Checkbox
+            <CheckBox
               value={technology.includes(lang)}
               onValueChange={() => {
                 if (technology.includes(lang)) {
-                  // setTechnology(technology.filter(item => item !== lang));
+                  setTechnology(technology.filter(item => item !== lang));
                 } else {
                   setTechnology([...technology, lang]);
                 }
@@ -141,13 +143,18 @@ function RegistrationScreen({navigation}) {
           </View>
         ))}
 
-        <Button
-          title="go to details"
-          onPress={() =>
-            navigation.navigate('Home', {name, email, password, gender})
-          }
-        />
-    */}
+        <Pressable style={styles.Button} onPress={handleRegister}>
+          <Text
+            style={{
+              color: 'white',
+              textAlign: 'center',
+              padding: '3%',
+              fontSize: 18,
+              fontWeight: 500,
+            }}>
+            Register Now
+          </Text>
+        </Pressable>
       </View>
     </View>
   );
@@ -173,10 +180,18 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   Dropdown: {
-    height: 50,
-    width: '100%',
-    margin: 10,
-    borderWidth: 0.5,
+    width: '70%',
+    borderWidth: 1,
+  },
+  CheckboxContainer: {
+    flexDirection: 'row',
+  },
+  Button: {
+    backgroundColor: 'teal',
+    borderRadius: 50,
+    width: '40%',
     alignSelf: 'center',
+    // marginTop: '5%',
+    // padding: '4%',
   },
 });
