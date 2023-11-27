@@ -1,15 +1,25 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, Text, Button, TouchableOpacity, StyleSheet} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {userLogin} from '../actions/ActionPerform';
-import LoginScreen from './LoginScreen';
-const HomeScreen = ({navigation}) => {
+import {logout} from '../actions/ActionPerform';
+import {login} from '../actions/ActionPerform';
+
+const HomeScreen = ({route, navigation}) => {
   const dispatch = useDispatch();
-  const user = useSelector(state => state.userData);
+  const user = useSelector(state => state.user);
+
+  //   const {user: passedUser} = route.params || {};
+
+  //   useEffect(() => {
+  //     if (passedUser) {
+  //       dispatch(login(passedUser));
+  //     }
+  //   }, [dispatch, passedUser]);
 
   const handleLogout = () => {
     // Dispatch logout action
-    dispatch(Login());
+    // dispatch(login());
+    dispatch(logout());
 
     // Navigate back to the login screen
     navigation.navigate('Login');
@@ -25,7 +35,7 @@ const HomeScreen = ({navigation}) => {
         <Text
           style={{
             color: 'white',
-            fontSize: 25,
+            fontSize: 20,
             fontWeight: 'bold',
           }}>
           Log out
@@ -40,10 +50,10 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   LoginButton: {
     backgroundColor: 'blue',
-    borderRadius: 100,
-    alignItems: 'center',
-    width: 300,
+    borderRadius: 15,
+    width: '25%',
     paddingVertical: 5,
     marginVertical: 10,
+    alignItems: 'center',
   },
 });

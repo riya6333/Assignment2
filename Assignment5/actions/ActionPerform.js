@@ -1,14 +1,21 @@
-import {USER_LOGIN, USER_SIGNUP} from './ActionTypes';
-export const userLogin = userData => {
+import {TOGGLE_REM, USER_LOGIN, USER_LOGOUT, USER_SIGNUP} from './ActionTypes';
+export const login = user => {
   return {
     type: USER_LOGIN,
-    payload: userData,
+    payload: user,
   };
 };
 
-export const userSignUp = userData => {
+export const signUp = user => {
   return {
     type: USER_SIGNUP,
-    payload: userData,
+    payload: user,
   };
 };
+
+export const logout = () => ({
+  type: USER_LOGOUT,
+});
+export const toggleRememberMe = () => ({
+  type: TOGGLE_REM,
+});

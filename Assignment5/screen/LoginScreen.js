@@ -1,24 +1,22 @@
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
-  StyleSheet,
   TextInput,
-  Alert,
+  Button,
+  StyleSheet,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import React, {useState, useEffect} from 'react';
-// import { styles } from './styles'
-// import {on} from 'events';
-import {userLogin} from '../actions/ActionPerform';
+import {login} from '../actions/ActionPerform';
 
 const RememberMeCheckbox = ({value, onToggle}) => {
   const checkboxStyle = {
-    width: 25,
+    width: 30,
     height: 20,
     borderWidth: 1,
     borderRadius: 5,
-    borderColor: 'blue',
     marginRight: 10,
     alignItems: 'center',
     justifyContent: 'center',
@@ -26,39 +24,61 @@ const RememberMeCheckbox = ({value, onToggle}) => {
 
   return (
     <TouchableOpacity onPress={onToggle}>
-      <View style={[checkboxStyle, value && {backgroundColor: 'black'}]}>
+      <View style={[checkboxStyle, value && {backgroundColor: 'blue'}]}>
         {value && <Text style={{color: 'white'}}>✔️</Text>}
       </View>
     </TouchableOpacity>
   );
 };
 
-export default function LoginScreen({navigation}) {
+const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState(false);
+  const [password, setPassword] = useState();
+  const [rememberMe, setRememberMe] = useState(true);
   const dispatch = useDispatch();
-  const savedCredentials = useSelector(state => state.user);
 
+  const savedCredentials = useSelector(state => state.user || {});
+  const registeredUsers = useSelector(state => state.registeredUsers || []);
+  // console.log(registeredUsers);
   useEffect(() => {
-    if (rememberMe && savedCredentials) {
-      setEmail(savedCredentials.email);
-      setPassword(savedCredentials.password);
+    if (rememberMe && savedCredentials && savedCredentials.email) {
+      setEmail(savedCredentials.email || '');
+      setPassword(savedCredentials.password || '');
     }
   }, [rememberMe, savedCredentials]);
 
   const handleLogin = () => {
     // Implement your authentication logic here
-    const user = {email, password}; // Replace this with actual authentication
 
-    // Dispatch login action
-    dispatch(Login(userData));
+    const user = {email, password};
+    console.log(user.email);
+    console.log(registeredUsers);
 
-    if (rememberMe) {
-      // Save credentials in AsyncStorage or secure storage
-      // AsyncStorage.setItem('savedCredentials', JSON.stringify(user));
+    const matchingUsers = registeredUsers.filter(registeredUser => {
+      console.log(registeredUser);
+      return (
+        registeredUser.email === user.email &&
+        registeredUser.password === user.password
+      );
+    });
+
+    if (matchingUsers) {
+      dispatch(login(user));
+
+      // Dispatch login action
+      // dispatch(login(user));
+
+      if (rememberMe) {
+        // Save credentials in AsyncStorage or secure storage
+        // AsyncStorage.setItem('savedCredentials', JSON.stringify(user));
+      }
+      navigation.navigate('Home');
+    } else {
+      Alert.alert(
+        'user not found',
+        'User information not found. Please signup.',
+      );
     }
-    navigation.navigate('Home');
   };
 
   const navigateToSignUp = () => {
@@ -71,120 +91,74 @@ export default function LoginScreen({navigation}) {
 
   return (
     <View style={styles.mainContainer}>
-      <View style={styles.loginContainer}>
-        <View style={styles.subLoginContainer2}>
-          <TextInput
-            style={styles.mail}
-            placeholder="Enter your mail"
-            value={email}
-            onChangeText={text => setEmail(text)}></TextInput>
+      <TextInput
+        style={styles.input}
+        placeholder="Email"
+        value={email}
+        onChangeText={text => setEmail(text)}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Password"
+        secureTextEntry
+        value={password}
+        onChangeText={text => setPassword(text)}
+      />
 
-          <TextInput
-            style={styles.password}
-            placeholder="Password"
-            secureTextEntry
-            value={password}
-            onChangeText={text => setPassword(text)}></TextInput>
-        </View>
-      </View>
       <View
         style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
         <RememberMeCheckbox value={rememberMe} onToggle={toggleRememberMe} />
         <Text>Remember Me</Text>
       </View>
 
-      <View style={styles.footer}>
-        <TouchableOpacity onPress={handleLogin} style={styles.LoginButton}>
-          <Text
-            style={{
-              color: 'white',
-              fontSize: 25,
-              fontWeight: 'bold',
-            }}>
-            Log In
-          </Text>
-        </TouchableOpacity>
-        {/* <Button title="Login" onPress={handleLogin} /> */}
-        {/* <Button title="Sign Up" onPress={navigateToSignUp} /> */}
-        <TouchableOpacity
-          onPress={navigateToSignUp}
-          style={styles.RegisterButton}>
-          <Text
-            style={{
-              color: 'white',
-              fontSize: 25,
-              fontWeight: 'bold',
-            }}>
-            Sign up
-          </Text>
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity onPress={handleLogin} style={styles.button}>
+        <Text
+          style={{
+            color: 'white',
+            fontSize: 25,
+            fontWeight: 'bold',
+          }}>
+          Log In
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={navigateToSignUp} style={styles.button}>
+        <Text
+          style={{
+            color: 'white',
+            fontSize: 25,
+            fontWeight: 'bold',
+          }}>
+          Sign up
+        </Text>
+      </TouchableOpacity>
     </View>
   );
-}
+};
+
+export default LoginScreen;
 
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    padding: 20,
-  },
+    margin: 10,
+    padding: 10,
 
-  loginContainer: {
-    flex: 0.5,
-  },
-
-  subLoginContainer2: {
-    borderRadius: 30,
-    gap: 5,
-    justifyContent: 'center',
-    alignItems: 'flex-end',
-  },
-  name: {
-    width: '100%',
-    borderRadius: 30,
-    backgroundColor: '#F5F5F5',
-  },
-  phone: {
-    width: '100%',
-    borderRadius: 30,
-    backgroundColor: '#F5F5F5',
-  },
-
-  mail: {
-    width: '100%',
-    borderRadius: 30,
-    backgroundColor: '#F5F5F5',
-  },
-  password: {
-    width: '100%',
-    borderRadius: 30,
-    backgroundColor: '#F5F5F5',
-  },
-  footer: {
-    flex: 0.2,
-  },
-
-  btn: {
-    width: '100%',
-    backgroundColor: '#4FA8D8',
-    borderRadius: 20,
-    height: '20%',
-    justifyContent: 'center',
     alignItems: 'center',
   },
-  LoginButton: {
+  input: {
+    height: 40,
+    width: '80%',
+    borderRadius: 15,
+    marginBottom: 10,
+    paddingHorizontal: 10,
+    backgroundColor: 'rgb(220,220,220)',
+  },
+  button: {
     backgroundColor: 'blue',
     borderRadius: 100,
     alignItems: 'center',
-    width: '100%',
-    paddingVertical: 5,
-    marginVertical: 10,
-  },
-  RegisterButton: {
-    backgroundColor: 'blue',
-    borderRadius: 100,
-    alignItems: 'center',
-    width: '100%',
+    width: '35%',
     paddingVertical: 5,
     marginVertical: 10,
   },
