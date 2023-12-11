@@ -6,6 +6,7 @@ import {AppRegistry} from 'react-native';
 import {name as appName} from './app.json';
 
 import UserData from './UserData';
-import PharmacyData from './assignment6/src/PharmacyData';
+import PharmacyData from './App';
+import App from './App';
 
-AppRegistry.registerComponent(appName, () => PharmacyData);
+AppRegistry.registerComponent(appName, () => App);

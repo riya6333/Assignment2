@@ -2,7 +2,7 @@ import React from 'react';
 import {View, FlatList, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {useState, useEffect} from 'react';
 import SplashScreen from 'react-native-splash-screen';
-import PharmacyModal from './modal/PharmacyModal';
+import PharmacyModal from './src/modal/PharmacyModal';
 
 const PharmacyData = () => {
   const [modalVisible, setModalVisible] = useState(false);
