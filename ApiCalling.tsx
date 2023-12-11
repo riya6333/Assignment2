@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, FlatList, Text, View} from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import SplashScreen from 'react-native-splash-screen';
 
 type Movie = {
   id: string;
@@ -10,6 +17,8 @@ type Movie = {
 const App = () => {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState<Movie[]>([]);
+
+  useEffect(() => SplashScreen.hide());
 
   const getMovies = async () => {
     try {
@@ -29,6 +38,7 @@ const App = () => {
 
   return (
     <View style={{flex: 1, padding: 24}}>
+      <Text style={styles.text}>API CALLING</Text>
       {isLoading ? (
         <ActivityIndicator />
       ) : (
@@ -36,7 +46,7 @@ const App = () => {
           data={data}
           keyExtractor={({id}) => id}
           renderItem={({item}) => (
-            <Text>
+            <Text style={styles.input}>
               {item.title}, {item.releaseYear}
             </Text>
           )}
@@ -47,3 +57,17 @@ const App = () => {
 };
 
 export default App;
+const styles = StyleSheet.create({
+  text: {
+    alignSelf: 'center',
+    fontFamily: 'AbrilFatface-Regular',
+    fontSize: 35,
+    color: 'black',
+  },
+  input: {
+    alignSelf: 'center',
+    fontFamily: 'AbrilFatface-Regular',
+    fontSize: 20,
+    color: 'teal',
+  },
+});

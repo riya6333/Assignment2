@@ -5,6 +5,7 @@ import 'react-native-gesture-handler';
 import {AppRegistry} from 'react-native';
 import {name as appName} from './app.json';
 
-import AppLogin from './Assignment5/AppLogin';
+import UserData from './UserData';
+import PharmacyData from './assignment6/src/PharmacyData';
 
-AppRegistry.registerComponent(appName, () => AppLogin);
+AppRegistry.registerComponent(appName, () => PharmacyData);

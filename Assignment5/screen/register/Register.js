@@ -3,38 +3,25 @@ import {
   View,
   Text,
   TextInput,
-  Alert,
   StyleSheet,
+  Alert,
   TouchableOpacity,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {signUp} from '../actions/ActionPerform';
-import Login from '../../src/Login';
+import {registerUserData} from '../../actions/userAction';
 
-const SignUpScreen = ({navigation}) => {
+const Register = ({navigation}) => {
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.user);
+  console.log('sign up', user);
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [mobile, setMobile] = useState('');
   const [password, setPassword] = useState('');
-  const [phone, setPhone] = useState('');
-  const dispatch = useDispatch();
 
-  const signUpSuccess = useSelector(state => state.signUpSuccess);
-
-  // console.log('all user', user);
-
-  const handleSignUp = () => {
-    if (!name || !email || !phone || !password) {
-      Alert.alert('Error', 'Please fill in all fields');
-      return;
-    }
-
-    const newUser = {name, email, password, phone};
-    console.log('new user', newUser);
-    dispatch(signUp(newUser));
-
-    Alert.alert('Registration Successful', 'You can now log in!');
-    // Navigate back to the login screen
-    navigation.navigate(Login);
+  const handleRegister = () => {
+    dispatch(registerUserData({name, email, mobile, password}, navigation));
   };
 
   return (
@@ -61,25 +48,25 @@ const SignUpScreen = ({navigation}) => {
       <TextInput
         style={styles.input}
         placeholder="Phone"
-        value={phone}
-        onChangeText={text => setPhone(text)}
+        value={mobile}
+        onChangeText={text => setMobile(text)}
       />
 
-      <TouchableOpacity onPress={handleSignUp} style={styles.SignInButton}>
+      <TouchableOpacity onPress={handleRegister} style={styles.SignInButton}>
         <Text
           style={{
             color: 'white',
             fontSize: 25,
             fontWeight: 'bold',
           }}>
-          Sign up
+          Register
         </Text>
       </TouchableOpacity>
     </View>
   );
 };
 
-export default SignUpScreen;
+export default Register;
 
 const styles = StyleSheet.create({
   mainContainer: {

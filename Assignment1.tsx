@@ -144,3 +144,68 @@ const styles = StyleSheet.create({
   },
   signup: {},
 });
+
+// import React, {useState, useEffect} from 'react';
+// import {View, Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native';
+// import Icon from 'react-native-vector-icons/MaterialIcons';
+// import SplashScreen from 'react-native-splash-screen';
+
+// const Assessment = () => {
+//   useEffect(() => {
+//     SplashScreen.hide();
+//   }, []);
+
+//   const [users, setUsers] = useState([
+//     {
+//       id: '1',
+//       name: 'John',
+//       hobbies: [{hobby: 'Painting'}, {hobby: 'Cooking'}, {hobby: 'Gardening'}],
+//     },
+//     {
+//       id: '2',
+//       name: 'Alice',
+//       hobbies: [{hobby: 'Painting'}, {hobby: 'Cooking'}, {hobby: 'Gardening'}],
+//     },
+//   ]);
+
+//   const addEmptyUser = () => {
+//     const newUser = {
+//       id: (users.length + 1).toString(),
+//       name: '',
+//       hobbies: [],
+//     };
+//     setUsers([...users, newUser]);
+//   };
+
+//   const renderHobby = ({item}) => (
+//     <View style={styles.hobbyContainer}>
+//       <Text style={styles.hobbyText}>{item.hobby}</Text>
+//     </View>
+//   );
+
+//   const renderUser = ({item}) => (
+//     <View style={styles.userContainer}>
+//       <Text style={styles.userName}>Name: {item.name}</Text>
+//       <Text style={styles.sectionTitle}>Hobbies</Text>
+//       <FlatList
+//         data={item.hobbies}
+//         keyExtractor={hobby => hobby.hobby}
+//         renderItem={renderHobby}
+//       />
+//     </View>
+//   );
+
+//   return (
+//     <View style={styles.container}>
+//       <Text style={styles.header}>Hobbies of Users</Text>
+//       <FlatList
+//         data={users}
+//         keyExtractor={user => user.id}
+//         renderItem={renderUser}
+//       />
+//       <TouchableOpacity style={styles.floatingButton} onPress={renderUser}>
+//         <Icon name="add" size={30} color="#fff" />
+//       </TouchableOpacity>
+//     </View>
+//   );
+// };
